@@ -1,4 +1,6 @@
 const vscode = require('vscode');
+const path = require('path');
+const fs = require('fs');
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -8,32 +10,25 @@ function activate(context) {
 		vscode.window.showInformationMessage('Rendering CadQuery model...');
 
 		const panel = vscode.window.createWebviewPanel(
-			'cadQuery',
-			'CadQuery view',
-			vscode.ViewColumn.One,
-			{}
+			'cadQuery', 'CadQuery view', vscode.ViewColumn.One, {
+				enableScripts: true,
+				localResourceRoots: [ vscode.Uri.file(path.join(context.extensionPath, 'cq-view')) ]
+			}
 		);
-		panel.webview.html = getWebviewContent();
+
+		const index_path = path.join(context.extensionPath, 'cq-view', 'index.html');
+		fs.readFile(index_path, 'utf-8', (err, data) => {
+			if(err) {
+				console.error(err)
+			}
+			panel.webview.html = data;
+		});
 	});
 
 	context.subscriptions.push(disposable);
 }
 
 function deactivate() {}
-
-function getWebviewContent() {
-	return `<!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CadQuery view</title>
-  </head>
-  <body>
-    <h1>CadQuery view</h1>
-  </body>
-  </html>`;
-}
 
 module.exports = {
 	activate,
