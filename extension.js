@@ -10,7 +10,7 @@ function activate(ctx) {
 		vscode.window.showInformationMessage('Rendering CadQuery model...');
 
 		const panel = vscode.window.createWebviewPanel(
-			'cadQuery', 'CadQuery view', vscode.ViewColumn.One, {
+			'cadQuery', 'CadQuery view', vscode.ViewColumn.Two, {
 				enableScripts: true,
 				localResourceRoots: [ getResourcePath(ctx, '.') ]
 			}
