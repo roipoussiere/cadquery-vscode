@@ -49,7 +49,6 @@ function activate(ctx) {
 			html = fs.readFileSync(getResource(ctx, 'index.html').path).toString();
 			html = html.replace('{{cq-view-css}}', getResourceUri(ctx, panel.webview, 'cq-viewer.esm.css'));
 			html = html.replace('{{cq-view-js}}', getResourceUri(ctx, panel.webview, 'cq-viewer.esm.js'));
-			html = html.replace('{{cq-view-example}}', getResourceUri(ctx, panel.webview, 'hexapod.js'));
 
 			panel.webview.html = html;
 		}
