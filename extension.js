@@ -7,6 +7,9 @@ const fs = require('fs');
  */
 function activate(ctx) {
 	let panel = undefined;
+	const modules_path = path.join(ctx.extensionPath, 'node_modules');
+	const three_cad_viewer_path = path.join(modules_path, 'three-cad-viewer', 'dist');
+	const static_path = path.join(ctx.extensionPath, 'static');
 
 	function render() {
 		if (panel) {
@@ -17,13 +20,21 @@ function activate(ctx) {
 			panel = vscode.window.createWebviewPanel(
 				'cadQuery', 'CadQuery view', vscode.ViewColumn.Two, {
 					enableScripts: true,
-					localResourceRoots: [ getResource(ctx, '.') ]
+					localResourceRoots: [
+						vscode.Uri.file(three_cad_viewer_path),
+						vscode.Uri.file(static_path)
+					]
 				}
 			);
 
-			html = fs.readFileSync(getResource(ctx, 'index.html').path).toString();
-			html = html.replace('{{cq-view-css}}', getResourceUri(ctx, panel.webview, 'three-cad-viewer.esm.min.css'));
-			html = html.replace('{{cq-view-js}}', getResourceUri(ctx, panel.webview, 'three-cad-viewer.esm.min.js'));
+			const cq_viewer_path = path.join(static_path, 'cq-viewer.html');
+			html = fs.readFileSync(vscode.Uri.file(cq_viewer_path).path).toString();
+
+			const css_path = path.join(three_cad_viewer_path, 'three-cad-viewer.esm.min.css');
+			html = html.replace('{{cq-view-css}}', getResourceUri(panel.webview, css_path));
+
+			const js_path = path.join(three_cad_viewer_path, 'three-cad-viewer.esm.min.js');
+			html = html.replace('{{cq-view-js}}', getResourceUri(panel.webview, js_path));
 
 			panel.webview.html = html;
 			vscode.commands.executeCommand('cadquery.config');
@@ -62,12 +73,8 @@ function activate(ctx) {
 	});
 }
 
-function getResource(context, resourcePath) {
-	return vscode.Uri.file(path.join(context.extensionPath, 'cq-viewer', resourcePath));
-}
-
-function getResourceUri(context, webview, file_name) {
-	return webview.asWebviewUri(getResource(context, file_name)).toString();
+function getResourceUri(webview, resouce_path) {
+	return webview.asWebviewUri(vscode.Uri.file(resouce_path)).toString();
 }
 
 function deactivate() {}
