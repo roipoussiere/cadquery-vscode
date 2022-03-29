@@ -65,11 +65,14 @@ function activate(ctx) {
 
 	function build() {
 		const editor = vscode.window.activeTextEditor;
+		const model_path = path.join(ctx.extensionPath, 'examples', 'cube.json');
+		const output_path = '/tmp/cadquery-vscode/output.json';
 
 		if (editor) {
 			const terminal = vscode.window.createTerminal('CadQuery');
 			terminal.show();
 			terminal.sendText(`echo ${ editor.document.uri.fsPath }`);
+			terminal.sendText(`cat ${ model_path } | tee ${ output_path }`);
 		}
 	}
 
@@ -79,6 +82,11 @@ function activate(ctx) {
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.build', build));
 
 	vscode.workspace.onDidSaveTextDocument(() => {
+		vscode.commands.executeCommand('cadquery.build');
+	});
+
+	const watch_pattern = new vscode.RelativePattern(vscode.Uri.file('/tmp/cadquery-vscode'), '*.json');
+	vscode.workspace.createFileSystemWatcher(watch_pattern).onDidChange(uri => {
 		vscode.commands.executeCommand('cadquery.update');
 	});
 }
