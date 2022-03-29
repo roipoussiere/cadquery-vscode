@@ -47,25 +47,30 @@ function activate(ctx) {
 			);
 
 			html = fs.readFileSync(getResource(ctx, 'index.html').path).toString();
-			html = html.replace('{{cq-view-css}}', getResourceUri(ctx, panel.webview, 'cq-viewer.esm.css'));
-			html = html.replace('{{cq-view-js}}', getResourceUri(ctx, panel.webview, 'cq-viewer.esm.js'));
+			html = html.replace('{{cq-view-css}}', getResourceUri(ctx, panel.webview, 'three-cad-viewer.esm.min.css'));
+			html = html.replace('{{cq-view-js}}', getResourceUri(ctx, panel.webview, 'three-cad-viewer.esm.min.js'));
 
 			panel.webview.html = html;
+			vscode.commands.executeCommand('cadquery.config');
+			vscode.commands.executeCommand('cadquery.update');
 		}
 	}
 
 	function config() {
 		panel.webview.postMessage({
 			options: {
-				cadWidth: 400,
-				height: 300
+				cadWidth: 620,
+				height: 540
 			}
 		});
 	}
 
 	function update() {
 		panel.webview.postMessage({
-			model: sample_model
+			model: {
+				shapes: sample_model[0],
+				states: sample_model[1]
+			}
 		});
 	}
 
