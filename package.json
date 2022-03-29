@@ -11,7 +11,10 @@
 	"contributes": {
 		"commands": [{
             "command": "cadquery.render",
-            "title": "Render CadQuery model"
+            "title": "Open CadQuery viewer"
+		}, {
+            "command": "cadquery.config",
+            "title": "Configure CadQuery viewer"
 		}]
 	},
 	"scripts": {

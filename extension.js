@@ -6,35 +6,48 @@ const fs = require('fs');
  * @param {vscode.ExtensionContext} context
  */
 function activate(ctx) {
-	let disposable = vscode.commands.registerCommand('cadquery.render', function () {
-		vscode.window.showInformationMessage('Rendering CadQuery model...');
+	let panel = undefined;
 
-		const panel = vscode.window.createWebviewPanel(
-			'cadQuery', 'CadQuery view', vscode.ViewColumn.Two, {
-				enableScripts: true,
-				localResourceRoots: [ getResourcePath(ctx, '.') ]
-			}
-		);
+	function render() {
+		if (panel) {
+			panel.reveal(vscode.ViewColumn.Two);
+		} else {
+			vscode.window.showInformationMessage('Rendering CadQuery model...');
 
-		html = fs.readFileSync(getResourcePath(ctx, 'index.html').path).toString();
+			panel = vscode.window.createWebviewPanel(
+				'cadQuery', 'CadQuery view', vscode.ViewColumn.Two, {
+					enableScripts: true,
+					localResourceRoots: [ getResource(ctx, '.') ]
+				}
+			);
 
-		const cssPath = getResourcePath(ctx, 'cq-viewer.esm.css');
-		html = html.replace('{{cq-view-css}}', panel.webview.asWebviewUri(cssPath).toString());
+			html = fs.readFileSync(getResource(ctx, 'index.html').path).toString();
 
-		const jsPath = getResourcePath(ctx, 'cq-viewer.esm.js');
-		html = html.replace('{{cq-view-js}}', panel.webview.asWebviewUri(jsPath).toString());
+			html = html.replace('{{cq-view-css}}', getResourceUri(ctx, panel.webview, 'cq-viewer.esm.css'));
+			html = html.replace('{{cq-view-js}}', getResourceUri(ctx, panel.webview, 'cq-viewer.esm.js'));
+			html = html.replace('{{cq-view-example}}', getResourceUri(ctx, panel.webview, 'hexapod.js'));
 
-		const examplePath = getResourcePath(ctx, 'hexapod.js');
-		html = html.replace('{{cq-view-example}}', panel.webview.asWebviewUri(examplePath).toString());
+			panel.webview.html = html;
+		}
+	}
 
-		panel.webview.html = html;
-	});
+	function config() {
+		panel.webview.postMessage({
+			cadWidth: 400,
+			height: 300
+		});
+	}
 
-	ctx.subscriptions.push(disposable);
+	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.render', render));
+	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.config', config));
 }
 
-function getResourcePath(context, resourcePath) {
+function getResource(context, resourcePath) {
 	return vscode.Uri.file(path.join(context.extensionPath, 'cq-viewer', resourcePath));
+}
+
+function getResourceUri(context, webview, file_name) {
+	return webview.asWebviewUri(getResource(context, file_name)).toString();
 }
 
 function deactivate() {}
