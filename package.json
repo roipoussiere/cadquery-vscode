@@ -15,6 +15,9 @@
 		}, {
             "command": "cadquery.config",
             "title": "Configure CadQuery viewer"
+		}, {
+            "command": "cadquery.update",
+            "title": "Update CadQuery model"
 		}]
 	},
 	"scripts": {
