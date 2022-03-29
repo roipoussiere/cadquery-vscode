@@ -52,21 +52,31 @@ function activate(ctx) {
 	}
 
 	function update() {
-        const editor = vscode.window.activeTextEditor;
+		const editor = vscode.window.activeTextEditor;
 
-        if (editor) {
-            const document_content = editor.document.getText();
+		if (editor) {
+			const document_content = editor.document.getText();
 			model = JSON.parse(document_content);
-        }
+			panel.webview.postMessage({
+				model: model
+			});
+		}
+	}
 
-		panel.webview.postMessage({
-			model: model
-		});
+	function build() {
+		const editor = vscode.window.activeTextEditor;
+
+		if (editor) {
+			const terminal = vscode.window.createTerminal('CadQuery');
+			terminal.show();
+			terminal.sendText(`echo ${ editor.document.uri.fsPath }`);
+		}
 	}
 
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.render', render));
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.config', config));
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.update', update));
+	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.build', build));
 
 	vscode.workspace.onDidSaveTextDocument(() => {
 		vscode.commands.executeCommand('cadquery.update');
