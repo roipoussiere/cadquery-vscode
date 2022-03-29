@@ -2,31 +2,6 @@ const vscode = require('vscode');
 const path = require('path');
 const fs = require('fs');
 
-var sample_model = [
-	{
-		name: "Box1",
-		id: "/Box1",
-		parts: [
-			{
-				name: "Part_0",
-				id: "/Box1/Part_0",
-				type: "shapes",
-				shape: {
-					vertices: [ [-0.5, -0.5, -0.5], [-0.5, -0.5, 0.5], [-0.5, 0.5, -0.5], [-0.5, 0.5, 0.5], [0.5, -0.5, -0.5], [0.5, -0.5, 0.5], [0.5, 0.5, -0.5], [0.5, 0.5, 0.5], [-0.5, -0.5, -0.5], [0.5, -0.5, -0.5], [-0.5, -0.5, 0.5], [0.5, -0.5, 0.5], [-0.5, 0.5, -0.5], [0.5, 0.5, -0.5], [-0.5, 0.5, 0.5], [0.5, 0.5, 0.5], [-0.5, -0.5, -0.5], [-0.5, 0.5, -0.5], [0.5, -0.5, -0.5], [0.5, 0.5, -0.5], [-0.5, -0.5, 0.5], [-0.5, 0.5, 0.5], [0.5, -0.5, 0.5], [0.5, 0.5, 0.5] ],
-					triangles: [ 1, 2, 0, 1, 3, 2, 5, 4, 6, 5, 6, 7, 11, 8, 9, 11, 10, 8, 15, 13, 12, 15, 12, 14, 19, 16, 17, 19, 18, 16, 23, 21, 20, 23, 20, 22],
-					normals: [ [-1, 0, 0], [-1, 0, 0], [-1, 0, 0], [-1, 0, 0], [1, 0, 0], [1, 0, 0], [1, 0, 0], [1, 0, 0], [0, -1, 0], [0, -1, 0], [0, -1, 0], [0, -1, 0], [0, 1, 0], [0, 1, 0], [0, 1, 0], [0, 1, 0], [0, 0, -1], [0, 0, -1], [0, 0, -1], [0, 0, -1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1] ],
-					edges: [ [ [-0.5, -0.5, -0.5], [-0.5, -0.5, 0.5], ], [ [-0.5, -0.5, 0.5], [-0.5, 0.5, 0.5], ], [ [-0.5, 0.5, -0.5], [-0.5, 0.5, 0.5], ], [ [-0.5, -0.5, -0.5], [-0.5, 0.5, -0.5], ], [ [0.5, -0.5, -0.5], [0.5, -0.5, 0.5], ], [ [0.5, -0.5, 0.5], [0.5, 0.5, 0.5], ], [ [0.5, 0.5, -0.5], [0.5, 0.5, 0.5], ], [ [0.5, -0.5, -0.5], [0.5, 0.5, -0.5], ], [ [-0.5, -0.5, -0.5], [0.5, -0.5, -0.5], ], [ [-0.5, -0.5, 0.5], [0.5, -0.5, 0.5], ], [ [-0.5, 0.5, -0.5], [0.5, 0.5, -0.5], ], [ [-0.5, 0.5, 0.5], [0.5, 0.5, 0.5] ]],
-				},
-				color: "#e8b024",
-			}
-		],
-		loc: null,
-	},
-	{
-		"/Box1/Part_0": [1, 1],
-	}
-];
-
 /**
  * @param {vscode.ExtensionContext} context
  */
@@ -66,17 +41,25 @@ function activate(ctx) {
 	}
 
 	function update() {
+        const editor = vscode.window.activeTextEditor;
+
+        if (editor) {
+            const document_content = editor.document.getText();
+			model = JSON.parse(document_content);
+        }
+
 		panel.webview.postMessage({
-			model: {
-				shapes: sample_model[0],
-				states: sample_model[1]
-			}
+			model: model
 		});
 	}
 
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.render', render));
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.config', config));
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.update', update));
+
+	vscode.workspace.onDidSaveTextDocument(() => {
+		vscode.commands.executeCommand('cadquery.update');
+	});
 }
 
 function getResource(context, resourcePath) {
