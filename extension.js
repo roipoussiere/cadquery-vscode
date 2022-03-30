@@ -1,6 +1,10 @@
 const vscode = require('vscode');
 const path = require('path');
 const fs = require('fs');
+const XMLHttpRequest = require('xhr2');
+
+const caquery_server_url = 'http://127.0.0.1:5000';
+
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -56,33 +60,29 @@ function activate(ctx) {
 
 		if (editor) {
 			const document_content = editor.document.getText();
-			model = JSON.parse(document_content);
-			panel.webview.postMessage({
-				model: model
-			});
-		}
-	}
 
-	function build() {
-		const editor = vscode.window.activeTextEditor;
-		const model_path = path.join(ctx.extensionPath, 'examples', 'cube.json');
-		const output_path = '/tmp/cadquery-vscode/output.json';
-
-		if (editor) {
-			const terminal = vscode.window.createTerminal('CadQuery');
-			terminal.show();
-			terminal.sendText(`echo ${ editor.document.uri.fsPath }`);
-			terminal.sendText(`cat ${ model_path } | tee ${ output_path }`);
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", caquery_server_url, true);
+			xhr.setRequestHeader('Content-Type', 'text/plain');
+			xhr.send(document_content);
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					panel.webview.postMessage({
+						model: JSON.parse(xhr.responseText)
+					});
+				} else {
+					console.log(`Server returned response code ${xhr.status}.`);
+				}
+			}
 		}
 	}
 
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.render', render));
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.config', config));
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.update', update));
-	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.build', build));
 
 	vscode.workspace.onDidSaveTextDocument(() => {
-		vscode.commands.executeCommand('cadquery.build');
+		vscode.commands.executeCommand('cadquery.update');
 	});
 
 	const watch_pattern = new vscode.RelativePattern(vscode.Uri.file('/tmp/cadquery-vscode'), '*.json');
