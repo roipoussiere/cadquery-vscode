@@ -3,7 +3,14 @@
 	"displayName": "CadQuery",
 	"publisher": "roipoussiere",
 	"description": "Create CadQuery 3D models within your IDE.",
-	"keywords": ["cad", "cadquery", "python", "3d", "parametric", "modeling"],
+	"keywords": [
+		"cad",
+		"cadquery",
+		"python",
+		"3d",
+		"parametric",
+		"modeling"
+	],
 	"homepage": "https://framagit.org/roipoussiere/cadquery-vscode",
 	"version": "0.0.1",
 	"repository": {
@@ -11,7 +18,7 @@
 		"url": "https://framagit.org/roipoussiere/cadquery-vscode.git"
 	},
 	"bugs": "https://framagit.org/roipoussiere/cadquery-vscode/-/issues",
-	"license" : "MIT",
+	"license": "MIT",
 	"author": "Roipoussere (https://mastodon.tetaneutral.net/@roipoussiere)",
 	"engines": {
 		"vscode": "^1.65.0"
@@ -19,7 +26,7 @@
 	"categories": [
 		"Visualization"
 	],
-	"main": "./extension.js",
+	"main": "./dist/main.js",
 	"activationEvents": [
 		"onCommand:cadquery.render"
 	],
@@ -37,7 +44,11 @@
 	},
 	"scripts": {
 		"lint": "eslint .",
-		"pretest": "yarn run lint"
+		"pretest": "yarn run lint",
+		"vscode:prepublish": "yarn run esbuild-base -- --minify",
+		"esbuild-base": "esbuild ./extension.js --bundle --outfile=dist/main.js --external:vscode --format=cjs --platform=node",
+		"esbuild": "yarn run esbuild-base -- --sourcemap",
+		"esbuild-watch": "yarn run esbuild-base -- --sourcemap --watch"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.2.0",
@@ -45,6 +56,7 @@
 		"@types/node": "14.x",
 		"@types/vscode": "^1.65.0",
 		"@vscode/test-electron": "^2.1.3",
+		"esbuild": "^0.14.29",
 		"eslint": "^8.11.0",
 		"glob": "^7.2.0",
 		"mocha": "^9.2.2",
