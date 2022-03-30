@@ -21,16 +21,8 @@
 				"title": "Open CadQuery viewer"
 			},
 			{
-				"command": "cadquery.config",
-				"title": "Configure CadQuery viewer"
-			},
-			{
 				"command": "cadquery.update",
 				"title": "Update CadQuery model"
-			},
-			{
-				"command": "cadquery.build",
-				"title": "Build CadQuery model"
 			}
 		]
 	},
@@ -50,6 +42,7 @@
 		"typescript": "^4.5.5"
 	},
 	"dependencies": {
-		"three-cad-viewer": "^1.5.5"
+		"three-cad-viewer": "^1.5.5",
+		"xhr2": "^0.2.1"
 	}
 }
