@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# Whitelist
+!.vscodeignore
+!dist/*
+!static/*
+!node_modules/three-cad-viewer/dist/three-cad-viewer.esm.min.*
