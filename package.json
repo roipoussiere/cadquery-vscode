@@ -2,8 +2,17 @@
 	"name": "cadquery",
 	"displayName": "CadQuery",
 	"publisher": "roipoussiere",
-	"description": "A preview panel for your CadQuery models.",
+	"description": "Create CadQuery 3D models within your IDE.",
+	"keywords": ["cad", "cadquery", "python", "3d", "parametric", "modeling"],
+	"homepage": "https://framagit.org/roipoussiere/cadquery-vscode",
 	"version": "0.0.1",
+	"repository": {
+		"type": "git",
+		"url": "https://framagit.org/roipoussiere/cadquery-vscode.git"
+	},
+	"bugs": "https://framagit.org/roipoussiere/cadquery-vscode/-/issues",
+	"license" : "MIT",
+	"author": "Roipoussere (https://mastodon.tetaneutral.net/@roipoussiere)",
 	"engines": {
 		"vscode": "^1.65.0"
 	},
