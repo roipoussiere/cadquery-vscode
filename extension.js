@@ -66,12 +66,14 @@ function activate(ctx) {
 			xhr.setRequestHeader('Content-Type', 'text/plain');
 			xhr.send(document_content);
 			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					panel.webview.postMessage({
-						model: JSON.parse(xhr.responseText)
-					});
-				} else {
-					console.log(`Server returned response code ${xhr.status}.`);
+				if (xhr.readyState == 4) {
+					if (xhr.status == 200) {
+						panel.webview.postMessage({
+							model: JSON.parse(xhr.responseText)
+						});
+					} else {
+						console.log(`Server returned response code ${xhr.status}.`);
+					}
 				}
 			}
 		}
