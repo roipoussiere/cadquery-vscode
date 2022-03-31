@@ -17,8 +17,6 @@ function activate(ctx) {
 		if (panel) {
 			panel.reveal(vscode.ViewColumn.Two);
 		} else {
-			vscode.window.showInformationMessage('Rendering CadQuery model...');
-
 			panel = vscode.window.createWebviewPanel(
 				'cadQuery', 'CadQuery view', vscode.ViewColumn.Two, {
 					enableScripts: true,
@@ -58,7 +56,8 @@ function activate(ctx) {
 
 		if (editor) {
 			const document_content = editor.document.getText();
-			const cq_server_url = vscode.workspace.getConfiguration('cadquery.cadqueryServerUrl');
+			const config = vscode.workspace.getConfiguration('cadquery');
+			const cq_server_url = config.get('cadqueryServerUrl');
 
 			var xhr = new XMLHttpRequest();
 			xhr.open("POST", cq_server_url, true);
@@ -71,7 +70,7 @@ function activate(ctx) {
 							model: JSON.parse(xhr.responseText)
 						});
 					} else {
-						console.log(`Server returned response code ${xhr.status}.`);
+						vscode.window.showErrorMessage(`CadQuery server returned response code ${xhr.status}.`);
 					}
 				}
 			}
