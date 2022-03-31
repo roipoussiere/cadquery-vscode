@@ -22,7 +22,7 @@
 	"license": "MIT",
 	"author": "Roipoussiere (https://mastodon.tetaneutral.net/@roipoussiere)",
 	"engines": {
-		"vscode": "^1.65.0"
+		"vscode": "^1.66.0"
 	},
 	"categories": [
 		"Visualization"
@@ -60,7 +60,7 @@
 		"esbuild-base": "esbuild ./extension.js --bundle --outfile=dist/main.js --external:vscode --format=cjs --platform=node",
 		"esbuild": "yarn run esbuild-base -- --sourcemap",
 		"esbuild-watch": "yarn run esbuild-base -- --sourcemap --watch",
-		"build": "yarn run vsce package --yarn"
+		"build": "yarn run vsce package --yarn --baseImagesUrl https://framagit.org/roipoussiere/cadquery-vscode/-/raw/main"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.2.0",
