@@ -40,7 +40,17 @@
 				"command": "cadquery.update",
 				"title": "Update CadQuery model"
 			}
-		]
+		],
+		"configuration": {
+			"title": "CadQuery",
+			"properties": {
+				"cadquery.cadqueryServerUrl": {
+					"type": "string",
+					"default": "http://127.0.0.1:5000",
+					"description": "The url of the CadQuery server that runs your Python code."
+				}
+			}
+		}
 	},
 	"scripts": {
 		"lint": "eslint .",

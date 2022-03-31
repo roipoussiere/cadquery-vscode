@@ -3,8 +3,6 @@ const path = require('path');
 const fs = require('fs');
 const XMLHttpRequest = require('xhr2');
 
-const caquery_server_url = 'http://127.0.0.1:5000';
-
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -60,9 +58,10 @@ function activate(ctx) {
 
 		if (editor) {
 			const document_content = editor.document.getText();
+			const cq_server_url = vscode.workspace.getConfiguration('cadquery.cadqueryServerUrl');
 
 			var xhr = new XMLHttpRequest();
-			xhr.open("POST", caquery_server_url, true);
+			xhr.open("POST", cq_server_url, true);
 			xhr.setRequestHeader('Content-Type', 'text/plain');
 			xhr.send(document_content);
 			xhr.onreadystatechange = function() {
