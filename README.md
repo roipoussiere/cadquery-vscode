@@ -2,7 +2,7 @@
 
 Write and render CadQuery models in VSCode.
 
-![](doc/screenshot.png)
+![](images/screenshot.png)
 
 ## Features
 

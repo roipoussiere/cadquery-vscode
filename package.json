@@ -11,6 +11,7 @@
 		"parametric",
 		"modeling"
 	],
+	"icon": "images/logo.png",
 	"homepage": "https://framagit.org/roipoussiere/cadquery-vscode",
 	"version": "0.0.1",
 	"repository": {
