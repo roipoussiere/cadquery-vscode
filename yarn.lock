@@ -54,20 +54,15 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-9.1.0.tgz#baf17ab2cca3fcce2d322ebc30454bff487efad5"
   integrity sha512-QCWHkbMv4Y5U9oW10Uxbr45qMMSzl4OzijsozynUAgx3kEHUdXB00udx2dWDQ7f2TU2a2uuiFaRZjCe3unPpeg==
 
-"@types/node@*":
+"@types/node@*", "@types/node@17.0.23":
   version "17.0.23"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.23.tgz#3b41a6e643589ac6442bdbd7a4a3ded62f33f7da"
   integrity sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==
 
-"@types/node@14.x":
-  version "14.18.12"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.12.tgz#0d4557fd3b94497d793efd4e7d92df2f83b4ef24"
-  integrity sha512-q4jlIR71hUpWTnGhXWcakgkZeHa3CCjcQcnuzU8M891BAWA2jHiziiWEPEkdS5pFsz7H9HJiy8BrK7tBRNrY7A==
-
-"@types/vscode@^1.65.0":
-  version "1.65.0"
-  resolved "https://registry.yarnpkg.com/@types/vscode/-/vscode-1.65.0.tgz#042dd8d93c32ac62cb826cd0fa12376069d1f448"
-  integrity sha512-wQhExnh2nEzpjDMSKhUvnNmz3ucpd3E+R7wJkOhBNK3No6fG3VUdmVmMOKD0A8NDZDDDiQcLNxe3oGmX5SjJ5w==
+"@types/vscode@^1.66.0":
+  version "1.66.0"
+  resolved "https://registry.yarnpkg.com/@types/vscode/-/vscode-1.66.0.tgz#e90e1308ad103f2bd31b72c17b8031b4cec0713d"
+  integrity sha512-ZfJck4M7nrGasfs4A4YbUoxis3Vu24cETw3DERsNYtDZmYSYtk6ljKexKFKhImO/ZmY6ZMsmegu2FPkXoUFImA==
 
 "@ungap/promise-all-settled@1.1.2":
   version "1.1.2"
@@ -1805,10 +1800,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-three-cad-viewer@^1.5.5:
-  version "1.5.5"
-  resolved "https://registry.yarnpkg.com/three-cad-viewer/-/three-cad-viewer-1.5.5.tgz#1098fb3d97b8b5ff129f54fc8d18dbaeceae6b3b"
-  integrity sha512-Mt0MMUW59pkCLIIdGMoUMtxyeTRcSzqTfRb4ZTik6qasfuj3XRsMMi55YAkkJ7JuagNU3hOboBQGaw/SYsM1xw==
+three-cad-viewer@^1.5.6:
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/three-cad-viewer/-/three-cad-viewer-1.5.6.tgz#cc627c8976bbc5d06ee310bc205f8bc1c0f7b158"
+  integrity sha512-/bfl7LiyTubXhc68CupNz5sc/LQ5CVhU+ZzDzo0agnoLM+XFoTcqlakhzhzq9oW59LbLXHm/rq6PDnFzil74Ow==
   dependencies:
     three "0.138.3"
 
