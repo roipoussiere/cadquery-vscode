@@ -23,6 +23,7 @@
 			const [ shapes, states ] = model;
 			const [ group, tree ] = viewer.renderTessellatedShapes(shapes, states, options);
 			viewer.render(group, tree, states, options);
+			viewer.trimUI(["axes", "axes0", "grid", "ortho", "more", "help"], false);
 		}
 
 		function nc(change) {
