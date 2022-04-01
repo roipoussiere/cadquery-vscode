@@ -7,3 +7,4 @@
 !node_modules/three-cad-viewer/dist/three-cad-viewer.esm.min.*
 !LICENSE
 !images/logo.png
+!stubs

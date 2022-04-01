@@ -1,0 +1,13 @@
+from typing import Any
+
+JSON_TEMPLATE: str
+
+class JsonMesh:
+    vertices: Any
+    faces: Any
+    nVertices: int
+    nFaces: int
+    def __init__(self) -> None: ...
+    def addVertex(self, x, y, z) -> None: ...
+    def addTriangleFace(self, i, j, k) -> None: ...
+    def toJson(self): ...
