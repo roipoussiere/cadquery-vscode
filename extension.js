@@ -52,30 +52,15 @@ function activate(ctx) {
 	}
 
 	function render() {
-		console.log('render');
 		const editor = vscode.window.activeTextEditor;
 
 		if (editor) {
-			const document_content = editor.document.getText();
-			const config = vscode.workspace.getConfiguration('cadquery');
-			const cq_server_url = config.get('cadqueryServerUrl');
-
-			var xhr = new XMLHttpRequest();
-			xhr.open("POST", cq_server_url, true);
-			xhr.setRequestHeader('Content-Type', 'text/plain');
-			xhr.send(document_content);
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4) {
-					if (xhr.status == 200) {
-						panel.webview.postMessage({
-							model: JSON.parse(xhr.responseText)
-						});
-					} else {
-						vscode.window.showErrorMessage(`CadQuery server returned response code ${xhr.status}.`);
-					}
-				}
+			get_model(editor.document.getText(), model => {
+				panel.webview.postMessage({
+					model: model
+				});
+			});
 			}
-		}
 	}
 
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.init', init));
@@ -85,6 +70,25 @@ function activate(ctx) {
 	vscode.workspace.onDidSaveTextDocument(() => {
 		vscode.commands.executeCommand('cadquery.render');
 	});
+}
+
+function get_model(cq_script, fallback) {
+	const config = vscode.workspace.getConfiguration('cadquery');
+	const cq_server_url = config.get('cadqueryServerUrl');
+
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", cq_server_url, true);
+	xhr.setRequestHeader('Content-Type', 'text/plain');
+	xhr.send(cq_script);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4) {
+			if (xhr.status == 200) {
+				fallback(JSON.parse(xhr.responseText));
+			} else {
+				vscode.window.showErrorMessage(`CadQuery server returned response code ${xhr.status}.`);
+			}
+		}
+	}
 }
 
 function getResourceUri(webview, resouce_path) {
