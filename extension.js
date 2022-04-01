@@ -12,6 +12,9 @@ function activate(ctx) {
 	const modules_path = path.join(ctx.extensionPath, 'node_modules');
 	const three_cad_viewer_path = path.join(modules_path, 'three-cad-viewer', 'dist');
 	const static_path = path.join(ctx.extensionPath, 'static');
+	const stubs_path = path.join(ctx.extensionPath, 'stubs');
+
+	vscode.workspace.getConfiguration().update('python.analysis.extraPaths', [ stubs_path ], false);
 
 	function render() {
 		if (panel) {
