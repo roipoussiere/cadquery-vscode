@@ -6,12 +6,22 @@
 	<title>CadQuery Viewer</title>
 	<link rel="stylesheet" href="{{cq-view-css}}" />
 
+	<style>
+		body {
+			padding: 0;
+			overflow: hidden;
+		}
+		.tcv_cad_viewer {
+			margin: 0;
+		}
+	</style>
+
 	<script type="module">
 		import { Viewer } from '{{cq-view-js}}';
 
 		let options = {
-			cadWidth: 620,
-			height: 540,
+			cadWidth: window.innerWidth - 8,
+			height: window.innerHeight - 43,
 			treeWidth: 220,
 			theme: 'browser',
 			glass: true,
@@ -23,7 +33,6 @@
 			const [ shapes, states ] = model;
 			const [ group, tree ] = viewer.renderTessellatedShapes(shapes, states, options);
 			viewer.render(group, tree, states, options);
-			viewer.trimUI(["axes", "axes0", "grid", "ortho", "more", "help"], false);
 		}
 
 		function nc(change) {
@@ -33,6 +42,7 @@
 		function updateView(new_options) {
 			container.innerHTML = '';
 			viewer = new Viewer(container, Object.assign({}, options, new_options), nc);
+			viewer.trimUI(["axes", "axes0", "grid", "ortho", "more", "help"], false);
 		}
 
 		window.addEventListener('message', event => {
@@ -43,6 +53,12 @@
 			if (event.data.model) {
 				render(event.data.model);
 			}
+		});
+		window.addEventListener('resize', () => {
+			updateView({
+				cadWidth: window.innerWidth - 8,
+				height: window.innerHeight - 43
+			});
 		});
 
 		const container = document.getElementById('cad_view');
