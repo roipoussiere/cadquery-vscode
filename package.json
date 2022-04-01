@@ -42,6 +42,18 @@
 				"title": "Render CadQuery model"
 			}
 		],
+		"keybindings": [
+			{
+				"command": "cadquery.init",
+				"key": "alt+v",
+				"when": "!cadquery.enabled"
+			},
+			{
+				"command": "cadquery.render",
+				"key": "f7",
+				"when": "cadquery.enabled"
+			}
+		],
 		"configuration": {
 			"title": "CadQuery",
 			"properties": {

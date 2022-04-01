@@ -14,6 +14,7 @@ function activate(ctx) {
 	const static_path = path.join(ctx.extensionPath, 'static');
 	const stubs_path = path.join(ctx.extensionPath, 'stubs');
 
+	vscode.commands.executeCommand('setContext', 'cadquery.enabled', true);
 	vscode.workspace.getConfiguration().update('python.analysis.extraPaths', [ stubs_path ], false);
 
 	function init() {
@@ -51,6 +52,7 @@ function activate(ctx) {
 	}
 
 	function render() {
+		console.log('render');
 		const editor = vscode.window.activeTextEditor;
 
 		if (editor) {
@@ -89,7 +91,9 @@ function getResourceUri(webview, resouce_path) {
 	return webview.asWebviewUri(vscode.Uri.file(resouce_path)).toString();
 }
 
-function deactivate() {}
+function deactivate() {
+	vscode.commands.executeCommand('setContext', 'cadquery.enabled', false);
+}
 
 module.exports = {
 	activate,
