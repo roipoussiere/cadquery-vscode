@@ -16,7 +16,7 @@ function activate(ctx) {
 
 	vscode.workspace.getConfiguration().update('python.analysis.extraPaths', [ stubs_path ], false);
 
-	function render() {
+	function init() {
 		if (panel) {
 			panel.reveal(vscode.ViewColumn.Two);
 		} else {
@@ -40,21 +40,17 @@ function activate(ctx) {
 			html = html.replace('{{cq-view-js}}', getResourceUri(panel.webview, js_path));
 
 			panel.webview.html = html;
-			vscode.commands.executeCommand('cadquery.config');
-			vscode.commands.executeCommand('cadquery.update');
+			vscode.commands.executeCommand('cadquery.render');
 		}
 	}
 
 	function config() {
 		panel.webview.postMessage({
-			options: {
-				cadWidth: 620,
-				height: 540
-			}
+			options: {}
 		});
 	}
 
-	function update() {
+	function render() {
 		const editor = vscode.window.activeTextEditor;
 
 		if (editor) {
@@ -80,17 +76,12 @@ function activate(ctx) {
 		}
 	}
 
+	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.init', init));
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.render', render));
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.config', config));
-	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.update', update));
 
 	vscode.workspace.onDidSaveTextDocument(() => {
-		vscode.commands.executeCommand('cadquery.update');
-	});
-
-	const watch_pattern = new vscode.RelativePattern(vscode.Uri.file('/tmp/cadquery-vscode'), '*.json');
-	vscode.workspace.createFileSystemWatcher(watch_pattern).onDidChange(uri => {
-		vscode.commands.executeCommand('cadquery.update');
+		vscode.commands.executeCommand('cadquery.render');
 	});
 }
 

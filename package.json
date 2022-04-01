@@ -29,17 +29,17 @@
 	],
 	"main": "./dist/main.js",
 	"activationEvents": [
-		"onCommand:cadquery.render"
+		"onCommand:cadquery.init"
 	],
 	"contributes": {
 		"commands": [
 			{
-				"command": "cadquery.render",
+				"command": "cadquery.init",
 				"title": "Open CadQuery viewer"
 			},
 			{
-				"command": "cadquery.update",
-				"title": "Update CadQuery model"
+				"command": "cadquery.render",
+				"title": "Render CadQuery model"
 			}
 		],
 		"configuration": {

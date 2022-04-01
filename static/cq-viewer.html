@@ -19,7 +19,7 @@
 		};
 
 		function render(model) {
-			viewer?.clear();
+			viewer.clear();
 			const [ shapes, states ] = model;
 			const [ group, tree ] = viewer.renderTessellatedShapes(shapes, states, options);
 			viewer.render(group, tree, states, options);
@@ -36,13 +36,12 @@
 
 		window.addEventListener('message', event => {
 			// console.debug('received data:', JSON.stringify(event.data.model, null, 2));
-			Object.keys(event.data).forEach(key => {
-				if (key == 'options') {
-					updateView(event.data.options);
-				} else if (key == 'model') {
-					render(event.data.model);
-				}
-			});
+			if (!viewer || event.data.options) {
+				updateView(event.data.options ? event.data.options : {});
+			}
+			if (event.data.model) {
+				render(event.data.model);
+			}
 		});
 
 		const container = document.getElementById('cad_view');
