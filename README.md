@@ -7,13 +7,18 @@ Write and render CadQuery models in VSCode.
 ## Features
 
 - update preview when saving;
-- reasonably fast (ie. a fraction of a second for basic models).
+- reasonably fast (ie. a fraction of a second for basic models);
+- type checking and code completion.
+
+![](images/pylance.png)
 
 ## How it works
 
 The preview based on the [three-cad-viewer](https://github.com/bernhard-42/three-cad-viewer) (the same used in [jupyter-cadquery](https://github.com/bernhard-42/jupyter-cadquery)).
 
 When reloading the view, the VSCode extension sends the current Python script on a CadQuery web server ([cadquery/cadquery-server](https://hub.docker.com/r/cadquery/cadquery-server) on Docker hub), that executes the CadQuery code and returns a low-level threejs object representing the model.
+
+The type checking and code completion is made using CadQuery stubs included in the bundled and generated with MyPy.
 
 ## Installation
 
@@ -51,6 +56,8 @@ The preview should be updated each time your CadQuery Python script is saved.
 ### 3. Tips and tricks
 
 You can make the UI lighter by enabling VSCode Zen mode by hitting `Ctrl+K` then `Z`.
+
+You should use a language server to activate code completion, such as Pylance. Note that in order to make it work on VSCodium, you must set the `nameLong` value to `Visual Studio Code` in your `product.json` (located at `/usr/share/codium/resources/app/product.json` on Linux).
 
 ## About
 
