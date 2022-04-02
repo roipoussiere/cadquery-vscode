@@ -13,7 +13,7 @@
 	],
 	"icon": "images/logo.png",
 	"homepage": "https://framagit.org/roipoussiere/cadquery-vscode",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"repository": {
 		"type": "git",
 		"url": "https://framagit.org/roipoussiere/cadquery-vscode.git"
