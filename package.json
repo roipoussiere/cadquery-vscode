@@ -72,7 +72,7 @@
 		"esbuild-base": "esbuild ./extension.js --bundle --outfile=dist/main.js --external:vscode --format=cjs --platform=node",
 		"esbuild": "yarn run esbuild-base -- --sourcemap",
 		"esbuild-watch": "yarn run esbuild-base -- --sourcemap --watch",
-		"build": "yarn run vsce package --yarn --baseImagesUrl https://framagit.org/roipoussiere/cadquery-vscode/-/raw/main"
+		"build": "yarn run vsce package --out ./build --yarn --baseImagesUrl https://framagit.org/roipoussiere/cadquery-vscode/-/raw/main"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.2.0",

@@ -1,5 +1,17 @@
-node_modules
-dist
-*.vsix
+# Node modules used in the extension
+/node_modules
+
+# Bundled js files used in the extension
+/dist
+
+# Generated .vsix files
+/build
+
+# vscode config folder used when testing the extension
 examples/.vscode
+
+# Cadquery server: generated Python cache files
 cadquery-server/cadquery_server/__pycache__
+
+# Cadquery server: generated package files to publish
+cadquery-server/dist
