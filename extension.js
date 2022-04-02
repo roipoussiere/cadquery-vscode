@@ -13,6 +13,11 @@ function activate(ctx) {
 	const three_cad_viewer_path = path.join(modules_path, 'three-cad-viewer', 'dist');
 	const static_path = path.join(ctx.extensionPath, 'static');
 	const stubs_path = path.join(ctx.extensionPath, 'stubs');
+	const viewer_options = {
+		theme: 'browser',
+		glass: true,
+		control: 'trackball'			
+	}
 
 	vscode.commands.executeCommand('setContext', 'cadquery.enabled', true);
 	vscode.workspace.getConfiguration().update('python.analysis.extraPaths', [ stubs_path ], false);
@@ -59,17 +64,22 @@ function activate(ctx) {
 		const editor = vscode.window.activeTextEditor;
 
 		if (editor) {
-			get_model(editor.document.getText(), model => {
-				panel.webview.postMessage({
-					command: 'render',
-					model: model,
-					options: {
-						theme: 'browser',
-						glass: true,
-						control: 'trackball'			
+			get_model(editor.document.getText(),
+				(model) => {
+					panel.webview.postMessage({
+						command: 'render',
+						model: model,
+						options: viewer_options
+					});
+				},
+				(error_code) => {
+					if (error_code == 0) {
+						vscode.window.showErrorMessage(`Can not connect to CadQuery server. Is it started?`);
+					} else {
+						vscode.window.showErrorMessage(`CadQuery server returned response code ${xhr.status}.`);
 					}
-				});
-			});
+				}
+			);
 		}
 	}
 
@@ -81,7 +91,7 @@ function activate(ctx) {
 	});
 }
 
-function get_model(cq_script, fallback) {
+function get_model(cq_script, on_success, on_error) {
 	const config = vscode.workspace.getConfiguration('cadquery');
 	const cq_server_url = config.get('cadqueryServerUrl');
 
@@ -92,9 +102,9 @@ function get_model(cq_script, fallback) {
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4) {
 			if (xhr.status == 200) {
-				fallback(JSON.parse(xhr.responseText));
+				on_success(JSON.parse(xhr.responseText));
 			} else {
-				vscode.window.showErrorMessage(`CadQuery server returned response code ${xhr.status}.`);
+				on_error(xhr.status);
 			}
 		}
 	}
