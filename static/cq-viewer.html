@@ -19,50 +19,66 @@
 	<script type="module">
 		import { Viewer } from '{{cq-view-js}}';
 
-		let options = {
-			cadWidth: window.innerWidth - 8,
-			height: window.innerHeight - 43,
-			treeWidth: 220,
-			theme: 'browser',
-			glass: true,
-			control: 'trackball',
-		};
+		const container = document.getElementById('cad_view');
+		const vscode = acquireVsCodeApi();
 
-		function render(model) {
+		let options = get_size_options();
+		let viewer = null;
+		let model = [ {}, {} ];
+
+		function nc(change) {
+			// console.debug('viewer info:', JSON.stringify(change, null, 2));
+		}
+
+		function update_viewer() {
+			container.innerHTML = '';
+			viewer = new Viewer(container, options, nc);
+			viewer.trimUI(["axes", "axes0", "grid", "ortho", "more", "help"], false);
+			render(model);
+		}
+
+		function render() {
 			viewer.clear();
 			const [ shapes, states ] = model;
 			const [ group, tree ] = viewer.renderTessellatedShapes(shapes, states, options);
 			viewer.render(group, tree, states, options);
 		}
 
-		function nc(change) {
-			// console.debug('viewer info:', JSON.stringify(change, null, 2));
-		}
-
-		function updateView(new_options) {
-			container.innerHTML = '';
-			viewer = new Viewer(container, Object.assign({}, options, new_options), nc);
-			viewer.trimUI(["axes", "axes0", "grid", "ortho", "more", "help"], false);
-		}
-
-		window.addEventListener('message', event => {
-			// console.debug('received data:', JSON.stringify(event.data.model, null, 2));
-			if (!viewer || event.data.options) {
-				updateView(event.data.options ? event.data.options : {});
-			}
-			if (event.data.model) {
-				render(event.data.model);
-			}
-		});
-		window.addEventListener('resize', () => {
-			updateView({
+		function get_size_options() {
+			return {
 				cadWidth: window.innerWidth - 8,
-				height: window.innerHeight - 43
+				height: window.innerHeight - 43,
+				treeWidth: window.innerWidth > 400 ? window.innerWidth / 3 : 200
+			};
+		}
+
+		window.addEventListener("DOMContentLoaded", (event) => {
+			vscode.postMessage({
+				status: 'dom_loaded'
 			});
 		});
 
-		const container = document.getElementById('cad_view');
-		let viewer = null;
+		window.addEventListener('message', event => {
+			// console.debug('received data:', JSON.stringify(event.data.model, null, 2));
+			if (event.data.options) {
+				options = Object.assign({}, options, event.data.options);
+			}
+			if (event.data.model) {
+				model = event.data.model;
+			}
+
+			if (event.data.command == 'render') {
+				if (! viewer) {
+					update_viewer();
+				} else {
+					render();
+				}
+			}
+		});
+
+		window.addEventListener('resize', () => {
+			update_viewer();
+		});
 	</script>
 </head>
 

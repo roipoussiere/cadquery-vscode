@@ -42,13 +42,17 @@ function activate(ctx) {
 
 			panel.webview.html = html;
 			vscode.commands.executeCommand('cadquery.render');
-		}
-	}
 
-	function config() {
-		panel.webview.postMessage({
-			options: {}
-		});
+			panel.webview.onDidReceiveMessage(
+				message => {
+					if (message.status == 'dom_loaded') {
+						render();
+					}
+				},
+				undefined,
+				ctx.subscriptions
+			);
+		}
 	}
 
 	function render() {
@@ -57,15 +61,20 @@ function activate(ctx) {
 		if (editor) {
 			get_model(editor.document.getText(), model => {
 				panel.webview.postMessage({
-					model: model
+					command: 'render',
+					model: model,
+					options: {
+						theme: 'browser',
+						glass: true,
+						control: 'trackball'			
+					}
 				});
 			});
-			}
+		}
 	}
 
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.init', init));
 	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.render', render));
-	ctx.subscriptions.push(vscode.commands.registerCommand('cadquery.config', config));
 
 	vscode.workspace.onDidSaveTextDocument(() => {
 		vscode.commands.executeCommand('cadquery.render');
