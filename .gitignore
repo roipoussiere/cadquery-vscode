@@ -2,3 +2,4 @@ node_modules
 dist
 *.vsix
 examples/.vscode
+cadquery-server/cadquery_server/__pycache__
