@@ -8,10 +8,10 @@
 /build
 
 # vscode config folder used when testing the extension
-examples/.vscode
+/examples/.vscode
 
 # Cadquery server: generated Python cache files
-cadquery-server/src/__pycache__
+/cadquery-server/src/__pycache__
 
 # Cadquery server: generated package files to publish
-cadquery-server/dist
+/cadquery-server/dist
