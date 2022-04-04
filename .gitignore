@@ -11,7 +11,7 @@
 examples/.vscode
 
 # Cadquery server: generated Python cache files
-cadquery-server/cadquery_server/__pycache__
+cadquery-server/src/__pycache__
 
 # Cadquery server: generated package files to publish
 cadquery-server/dist
