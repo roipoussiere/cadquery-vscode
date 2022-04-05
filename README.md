@@ -1,6 +1,6 @@
 # VSCode CadQuery extension
 
-Write and render CadQuery models in VSCode.
+Build parametric 2D/3D CAD models in VSCode with the [CadQuery](https://github.com/CadQuery/cadquery) library.
 
 ![](images/screenshot.png)
 
@@ -11,15 +11,19 @@ Write and render CadQuery models in VSCode.
 - reasonably easy to install (the CadQuery server can be installed via docker);
 - type checking and code completion.
 
-![](images/pylance.png)
+## About CadQuery
+
+From the [CadQuery readme](https://github.com/CadQuery/cadquery/blob/master/README.md):
+
+> CadQuery is an intuitive, easy-to-use Python module for building parametric 3D CAD models. Using CadQuery, you can write short, simple scripts that produce high quality CAD models. It is easy to make many different objects using a single script that can be customized.
 
 ## How it works
 
-When reloading the view, the VSCode extension sends the current Python script on a CadQuery server, that executes its and returns a low-level threejs object representing the model. Since the server already loaded the CadQuery module at start, the response time is usually acceptable.
+When reloading the view, the VSCode extension sends the current Python script on a CadQuery server, that executes its and returns a low-level threejs object representing the model (since the server loads the CadQuery module at start, the response time is acceptable).
 
 The viewer is based on the [three-cad-viewer](https://github.com/bernhard-42/three-cad-viewer) (the same used in [jupyter-cadquery](https://github.com/bernhard-42/jupyter-cadquery)) and display the object returned by the server.
 
-The type checking and code completion is made using CadQuery stubs bundled in the extension, generated with MyPy.
+Type checking and code completion is made using CadQuery stubs bundled in the extension, generated with MyPy (so it works even if you don't have a local CadQuery installation).
 
 ## Installation
 
@@ -75,9 +79,9 @@ The preview should be updated each time your CadQuery Python script is saved.
 
 ### 3. Tips and tricks
 
-You can make the UI lighter by enabling VSCode Zen mode by hitting `Ctrl+K` then `Z`.
-
 You should use a language server to activate code completion, such as Pylance. Note that in order to make it work on VSCodium, you must set the `nameLong` value to `Visual Studio Code` in your `product.json` (located at `/usr/share/codium/resources/app/product.json` on Linux).
+
+You can make the UI lighter by enabling VSCode Zen mode by hitting `Ctrl+K` then `Z`.
 
 ## About
 
