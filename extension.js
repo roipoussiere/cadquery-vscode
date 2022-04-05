@@ -5,7 +5,7 @@ const XMLHttpRequest = require('xhr2');
 
 
 /**
- * @param {vscode.ExtensionContext} context
+ * @param {vscode.ExtensionContext} ctx
  */
 function activate(ctx) {
 	let panel = undefined;
@@ -57,6 +57,11 @@ function activate(ctx) {
 				undefined,
 				ctx.subscriptions
 			);
+
+			panel.onDidDispose(() => {
+				panel = undefined;
+				deactivate();
+			}, null, ctx.subscriptions);
 		}
 	}
 
