@@ -43,17 +43,16 @@ Alternatively, you can manually install the extension in VSCode by downloading t
 
 ### Install the CadQuery server
 
-#### Using docker
+Eventually create a virtual environment first:
 
-This is the recommended way if you don't have CadQuery installed on your system.
+    python -m venv venv
+    source venv/bin/activate
 
-You must install [Docker](https://docs.docker.com/get-docker/) first, then dowload the image ([cadquery/cadquery-server](https://hub.docker.com/r/cadquery/cadquery-server) on Docker hub):
+Install cadquery if not installed on your system:
 
-    docker pull cadquery/cadquery-server
+    pip install cadquery2
 
-#### Using pip
-
-If you already installed CadQuery, you can use pip instead:
+Install cadquery server:
 
     pip install cadquery-server
 
@@ -63,12 +62,7 @@ If you already installed CadQuery, you can use pip instead:
 
 You can configure the server url in the VSCode extension settings (which is `http://127.0.0.1:5000` by default).
 
-#### If you used Docker
-
-    docker run --rm -d -p 5000:5000 cadquery/cadquery-server
-
-#### If you used pip
-
+    source venv/bin/activate # required if you used a virtual environment
     cq-server
 
 ### 2. Activate the extension
@@ -85,7 +79,9 @@ You can make the UI lighter by enabling VSCode Zen mode by hitting `Ctrl+K` then
 
 ## About
 
-- contact: [Mastodon](https://mastodon.tetaneutral.net/@roipoussiere);
+- contact:
+    - `@roipoussiere` on the CadQuery Discord;
+    - [Mastodon](https://mastodon.tetaneutral.net/@roipoussiere);
 - license: [MIT](./LICENSE);
 - source: [Framagit](https://framagit.org/roipoussiere/cadquery-vscode) (Gitlab instance) / [Github](https://github.com/roipoussiere/cadquery-vscode) (mirror);
 - issue tracker: [Framagit](https://framagit.org/roipoussiere/cadquery-vscode/-/issues) / [Github](https://github.com/roipoussiere/cadquery-vscode/issues)
