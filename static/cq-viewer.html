@@ -26,22 +26,43 @@
 		let viewer = null;
 		let model = [ {}, {} ];
 
+		let cam = {
+			position:undefined,
+			target:undefined,
+			quaternion:undefined,
+			zoom:undefined,
+		}
+		Object.assign(options, cam);
+
 		function nc(change) {
-			// console.debug('viewer info:', JSON.stringify(change, null, 2));
+			// position, quaternion, target, zoom
+			if(change.position)
+				cam.position = change.position.new;
+			if(change.quaternion)
+				cam.quaternion = change.quaternion.new;
+			if(change.target)
+				cam.target = change.target.new;
+			if(change.zoom)
+				cam.zoom = change.zoom.new;
+		Object.assign(options, cam);
+			console.log('viewer info:', JSON.stringify(cam, null, 2), change);
 		}
 
 		function update_viewer() {
-			container.innerHTML = '';
-			viewer = new Viewer(container, options, nc);
-			viewer.trimUI(["axes", "axes0", "grid", "ortho", "more", "help"], false);
-			render(model);
+			// container.innerHTML = '';
+			if(!viewer)
+				viewer = new Viewer(container, options, nc);
+			// viewer.trimUI(["axes", "axes0", "grid", "ortho", "more", "help"], false);
+			render(model); 
 		}
 
 		function render() {
+			console.log("render", options)
 			viewer.clear();
 			const [ shapes, states ] = model;
 			const [ group, tree ] = viewer.renderTessellatedShapes(shapes, states, options);
 			viewer.render(group, tree, states, options);
+
 		}
 
 		function get_size_options() {
@@ -59,7 +80,7 @@
 		});
 
 		window.addEventListener('message', event => {
-			// console.debug('received data:', JSON.stringify(event.data.model, null, 2));
+			console.debug('received data:', JSON.stringify(event.data.model, null, 2));
 			if (event.data.options) {
 				options = Object.assign({}, options, event.data.options);
 			}
