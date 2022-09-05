@@ -1800,18 +1800,6 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-three-cad-viewer@^1.5.9:
-  version "1.5.9"
-  resolved "https://registry.yarnpkg.com/three-cad-viewer/-/three-cad-viewer-1.5.9.tgz#1d7ff90a058ca6e48626ee5d716984951d3f2320"
-  integrity sha512-i0ZoppeRJYE+2Oe++Gy0u+M0c18WAy1/5dBtA9qolFRx/X2xIU6sa3SpZjllq1EVF9po1UNawlJZXQkD5C00gA==
-  dependencies:
-    three "0.138.3"
-
-three@0.138.3:
-  version "0.138.3"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.138.3.tgz#7be5153d79dcbf9e9baad82e7faf8c29edda4ed0"
-  integrity sha512-4t1cKC8gimNyJChJbaklg8W/qj3PpsLJUIFm5LIuAy/hVxxNm1ru2FGTSfbTSsuHmC/7ipsyuGKqrSAKLNtkzg==
-
 tmp@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.2.1.tgz#8457fc3037dcf4719c251367a1af6500ee1ccf14"

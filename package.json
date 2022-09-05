@@ -36,22 +36,13 @@
 			{
 				"command": "cadquery.init",
 				"title": "Open CadQuery viewer"
-			},
-			{
-				"command": "cadquery.render",
-				"title": "Render CadQuery model"
 			}
 		],
 		"keybindings": [
 			{
 				"command": "cadquery.init",
-				"key": "alt+v",
-				"when": "!cadquery.enabled"
-			},
-			{
-				"command": "cadquery.render",
 				"key": "f7",
-				"when": "cadquery.enabled"
+				"when": "!cadquery.enabled"
 			}
 		],
 		"configuration": {
@@ -89,7 +80,6 @@
 		"vsce": "^2.7.0"
 	},
 	"dependencies": {
-		"three-cad-viewer": "^1.5.9",
 		"xhr2": "^0.2.1"
 	}
 }
