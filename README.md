@@ -1,5 +1,17 @@
 # VSCode CadQuery extension
 
+---
+
+**Important note:**
+
+This extension is no longer compatible with the new version of CadQuery Server. Until this is resolved, please use the [LivePreview extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) instead:
+
+1. install LivePreview;
+2. `ctrl+shift+P` -> Simple Browser: Show
+3. update the url according to your running CadQuery server instance (ie. `127.0.0.1:5000`).
+
+---
+
 VSCode extension that integrates [CadQuery Server](https://github.com/roipoussiere/cadquery-server) in VSCode.
 
 CadQuery Server is a web server used to render 3d models from CadQuery code loaded dynamically.
